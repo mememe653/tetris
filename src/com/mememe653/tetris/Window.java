@@ -13,6 +13,12 @@ import javax.swing.Timer;
 
 import com.mememe653.tetrominoes.Tetrominoe;
 import com.mememe653.tetrominoes.Tetrominoe1;
+import com.mememe653.tetrominoes.Tetrominoe2;
+import com.mememe653.tetrominoes.Tetrominoe3;
+import com.mememe653.tetrominoes.Tetrominoe4;
+import com.mememe653.tetrominoes.Tetrominoe5;
+import com.mememe653.tetrominoes.Tetrominoe6;
+import com.mememe653.tetrominoes.Tetrominoe7;
 
 public class Window extends JPanel implements ActionListener {
 	
@@ -24,10 +30,7 @@ public class Window extends JPanel implements ActionListener {
 	private final int DOT_PADDING = 2;
 	private final int DOT_WIDTH = 30 - 2 * DOT_PADDING;
 	
-	private Tetrominoe shape = new Tetrominoe1(Color.pink);
-	
-	//private final Color SHAPE_COLOR = Color.pink;
-	//private final int[][][] shape_coords = {{{-1,-1}, {0,-1}, {0,0}, {-1,0}}};
+	private Tetrominoe shape = new Tetrominoe7(Color.pink);
 	
 	private int centre_coord_x = WIDTH / DOT_WIDTH / 2;
 	private int centre_coord_y = 0;
