@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -31,11 +33,13 @@ public class Window extends JPanel implements ActionListener {
 		initWindow();
 		
 		timer.start();
+		addKeyListener(new KeypressListener());
 	}
 	
 	private void initWindow() {
 		setBackground(Color.black);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setFocusable(true);
 	}
 	
 	@Override
@@ -65,15 +69,44 @@ public class Window extends JPanel implements ActionListener {
 		return false;
 	}
 	
-	private boolean checkHitSides() {
+	private boolean checkHitLeftSide() {
 		for (int i = 0; i < 4; i++) {
 			if ((centre_coord_x + shape_coords[0][i][0]) == 0) {
-				return true;
-			} else if ((centre_coord_x + shape_coords[0][i][0]) == (WIDTH / (DOT_WIDTH + 2 * DOT_PADDING) - 1)) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private boolean checkHitRightSide() {
+		for (int i = 0; i < 4; i++) {
+			if ((centre_coord_x + shape_coords[0][i][0]) == (WIDTH / (DOT_WIDTH + 2 * DOT_PADDING) - 1)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private class KeypressListener extends KeyAdapter {
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+			switch (key) {
+			case KeyEvent.VK_A:
+				if (!checkHitLeftSide()) {
+					centre_coord_x--;
+				}
+				break;
+			case KeyEvent.VK_D:
+				if (!checkHitRightSide()) {
+					centre_coord_x++;
+				}
+				break;
+			}
+		}
+		
+		
 	}
 
 }
