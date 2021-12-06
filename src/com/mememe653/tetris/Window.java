@@ -64,5 +64,16 @@ public class Window extends JPanel implements ActionListener {
 		}
 		return false;
 	}
+	
+	private boolean checkHitSides() {
+		for (int i = 0; i < 4; i++) {
+			if ((centre_coord_x + shape_coords[0][i][0]) == 0) {
+				return true;
+			} else if ((centre_coord_x + shape_coords[0][i][0]) == (WIDTH / (DOT_WIDTH + 2 * DOT_PADDING) - 1)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
