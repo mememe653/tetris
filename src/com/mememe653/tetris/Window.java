@@ -51,7 +51,18 @@ public class Window extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
-		centre_coord_y++;
+		if (!checkHitFloor()) {
+			centre_coord_y++;
+		}
+	}
+	
+	private boolean checkHitFloor() {
+		for (int i = 0; i < 4; i++) {
+			if ((centre_coord_y + shape_coords[0][i][1]) == (HEIGHT / (DOT_WIDTH + 2 * DOT_PADDING) - 1)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
