@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -31,6 +33,7 @@ public class Window extends JPanel implements ActionListener {
 	private final int DOT_WIDTH = 30 - 2 * DOT_PADDING;
 	
 	private Tetrominoe shape = new Tetrominoe7(Color.pink);
+	private final Floorbed floorbed = new Floorbed();
 	
 	private int centre_coord_x = WIDTH / DOT_WIDTH / 2;
 	private int centre_coord_y = 0;
@@ -54,16 +57,31 @@ public class Window extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		// Paint current tetrominoe
 		int shape_coords[][] = shape.getCoords();
 		g.setColor(shape.getColor());
 		for (int i = 0; i < 4; i++) {
 			g.fillRect((centre_coord_x + shape_coords[i][0]) * (DOT_WIDTH + 2 * DOT_PADDING) + DOT_PADDING, (centre_coord_y + shape_coords[i][1]) * (DOT_WIDTH + 2 * DOT_PADDING) + DOT_PADDING, DOT_WIDTH, DOT_WIDTH);
+		}
+		
+		// Paint floorbed
+		List<ArrayList<Brick>> floorBricks = floorbed.getBricks();
+		for (ArrayList<Brick> row : floorBricks) {
+			for (Brick brick : row) {
+				g.setColor(brick.getColor());
+				g.fillRect(brick.getX() * (DOT_WIDTH + 2 * DOT_PADDING) + DOT_PADDING, brick.getY() * (DOT_WIDTH + 2 * DOT_PADDING) + DOT_PADDING, DOT_WIDTH, DOT_WIDTH);
+			}
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
+		if (checkHitFloor()) {
+			floorbed.add(shape, centre_coord_x, centre_coord_y);
+			centre_coord_x = WIDTH / DOT_WIDTH / 2;
+			centre_coord_y = 0;
+		}
 		if (!checkHitFloor()) {
 			centre_coord_y++;
 		}
@@ -72,6 +90,9 @@ public class Window extends JPanel implements ActionListener {
 	private boolean checkHitFloor() {
 		int shape_coords[][] = shape.getCoords();
 		for (int i = 0; i < 4; i++) {
+			if (floorbed.checkHitFloor(shape, centre_coord_x, centre_coord_y)) {
+				return true;
+			}
 			if ((centre_coord_y + shape_coords[i][1]) == (HEIGHT / (DOT_WIDTH + 2 * DOT_PADDING) - 1)) {
 				return true;
 			}
