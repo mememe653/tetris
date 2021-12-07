@@ -69,6 +69,7 @@ public class Floorbed {
 			for (Brick brick : bricks.get(idx)) {
 				brick.setY(brick.getY() + 1);
 			}
+			idx++;
 		}
 	}
 }
