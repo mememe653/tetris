@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -21,10 +22,11 @@ import com.mememe653.tetrominoes.Tetrominoe4;
 import com.mememe653.tetrominoes.Tetrominoe5;
 import com.mememe653.tetrominoes.Tetrominoe6;
 import com.mememe653.tetrominoes.Tetrominoe7;
+import com.mememe653.tetrominoes.TetrominoeFactory;
 
 public class Window extends JPanel implements ActionListener {
 	
-	private final int DELAY = 100;
+	private final int DELAY = 200;
 	
 	private final int WIDTH = 300;
 	private final int HEIGHT = 600;
@@ -32,7 +34,7 @@ public class Window extends JPanel implements ActionListener {
 	private final int DOT_PADDING = 2;
 	private final int DOT_WIDTH = 30 - 2 * DOT_PADDING;
 	
-	private Tetrominoe shape = new Tetrominoe7(Color.pink);
+	private Tetrominoe shape = TetrominoeFactory.createTetrominoe((int) (Math.random() * 7) + 1);
 	private final Floorbed floorbed = new Floorbed();
 	
 	private int centre_coord_x = WIDTH / DOT_WIDTH / 2;
@@ -79,6 +81,7 @@ public class Window extends JPanel implements ActionListener {
 		repaint();
 		if (checkHitFloor()) {
 			floorbed.add(shape, centre_coord_x, centre_coord_y);
+			shape = TetrominoeFactory.createTetrominoe((int) (Math.random() * 7) + 1);
 			centre_coord_x = WIDTH / DOT_WIDTH / 2;
 			centre_coord_y = 0;
 		}
