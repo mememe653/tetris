@@ -59,6 +59,26 @@ public class Floorbed {
 		return false;
 	}
 	
+	public boolean checkUnderFloor(Tetrominoe tetrominoe, int centre_coord_x, int centre_coord_y) {
+		int rel_coords[][] = tetrominoe.getCoords();
+		int abs_coords[][] = new int[4][2];
+		for (int i = 0; i < abs_coords.length; i++) {
+			abs_coords[i][0] = rel_coords[i][0] + centre_coord_x;
+			abs_coords[i][1] = rel_coords[i][1] + centre_coord_y;
+		}
+		
+		for (int i = 0; i < abs_coords.length; i++) {
+			for (ArrayList<Brick> row : bricks) {
+				for (Brick brick : row) {
+					if ((brick.getX() == abs_coords[i][0]) && (brick.getY() <= abs_coords[i][1])) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public List<ArrayList<Brick>> getBricks() {
 		return bricks;
 	}

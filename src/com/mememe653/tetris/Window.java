@@ -120,6 +120,22 @@ public class Window extends JPanel implements ActionListener {
 		return false;
 	}
 	
+	private boolean checkOutOfBounds() {
+		int shape_coords[][] = shape.getCoords();
+		for (int i = 0; i < 4; i++) {
+			if ((centre_coord_x + shape_coords[i][0]) < 0) {
+				return true;
+			} else if ((centre_coord_x + shape_coords[i][0]) > (WIDTH / (DOT_WIDTH + 2 * DOT_PADDING) - 1)) {
+				return true;
+			} else if (floorbed.checkUnderFloor(shape, centre_coord_x, centre_coord_y)) {
+				return true;
+			} else if ((centre_coord_y + shape_coords[i][1]) > (HEIGHT / (DOT_WIDTH + 2 * DOT_PADDING) - 1)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private class KeypressListener extends KeyAdapter {
 		
 		@Override
@@ -138,9 +154,15 @@ public class Window extends JPanel implements ActionListener {
 				break;
 			case KeyEvent.VK_J:
 				shape.rotateLeft();
+				if (checkOutOfBounds()) {
+					shape.rotateRight();
+				}
 				break;
 			case KeyEvent.VK_L:
 				shape.rotateRight();
+				if (checkOutOfBounds()) {
+					shape.rotateLeft();
+				}
 				break;
 			}
 		}
